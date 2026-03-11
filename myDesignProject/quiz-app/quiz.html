@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Quiz App</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body style="background: #f3f4f6">
+        <div id="quiz-container">
+            <div class="quiz-container_quiz-info">
+                <p id="question-limit"></p>
+                <span id="timer">15s</span>
+            </div>
+            <div class="question-container">
+                <p id="question-txt"></p>
+                <div id="question-opt"></div>
+            </div>
+            <button class="quiz-container_bottom" id="next-btn">
+                Next Question ->
+            </button>
+        </div>
+        <script src="./script/quiz.js" type="module"></script>
+        <script src="./script/db.js" type="module"></script>
+    </body>
+</html>

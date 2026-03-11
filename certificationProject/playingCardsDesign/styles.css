@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#playing-cards {
+    padding: 4rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+}
+
+.card:nth-child(2n + 3) {
+    color: red;
+}
+.card {
+    width: 300px;
+    height: 350px;
+    box-shadow:
+        5px 3px 6px rgba(0, 0, 0, 0.2),
+        -5px -3px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.left,
+.right {
+    font-size: 30px;
+    font-weight: bold;
+}
+.left {
+    align-self: flex-start;
+}
+.middle {
+    font-size: 4rem;
+    font-weight: bold;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.right {
+    align-self: flex-end;
+    transform: rotate(180deg);
+}
