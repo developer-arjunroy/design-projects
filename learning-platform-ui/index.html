@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Course Dashboard UI — Tailwind</title>
+  <title>Course Dashboard UI — Tailwind (Responsive)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     /* small helpers for scrollbar & avatars */
@@ -12,13 +12,36 @@
       background: conic-gradient(#7c3aed var(--p), #e6e6ee 0);
       border-radius: 9999px;
     }
+    /* overlay for mobile sidebar */
+    .overlay { background: rgba(0,0,0,0.35); }
   </style>
 </head>
-<body class="min-h-screen bg-gray-300 p-8">
-  <div class="mx-auto max-w-7xl rounded-2xl bg-white shadow-xl overflow-hidden">
+<body class="min-h-screen bg-gray-100">
+  <!-- MOBILE HEADER -->
+  <header class="bg-white shadow-sm md:hidden">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button id="mobile-menu-btn" aria-label="Open menu" class="p-2 rounded-md hover:bg-gray-100">
+          <!-- hamburger -->
+          <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-semibold">C</div>
+        <div class="text-sm font-semibold">Coursue</div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="hidden sm:block w-64">
+          <input type="search" placeholder="Search your course..." class="w-full rounded-full border border-gray-200 px-3 py-2 text-sm focus:outline-none" />
+        </div>
+        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-yellow-400 flex items-center justify-center text-white font-medium">J</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto">
     <div class="flex">
-      <!-- LEFT SIDEBAR -->
-      <aside class="w-64 bg-white p-6 border-r border-gray-100">
+      <!-- LEFT SIDEBAR (desktop/tablet) -->
+      <aside class="hidden md:block w-64 bg-white p-6 border-r border-gray-100 h-screen sticky top-0">
         <div class="flex items-center gap-3 mb-8">
           <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">C</div>
           <div class="text-lg font-semibold">Coursue</div>
@@ -86,16 +109,13 @@
         </nav>
       </aside>
 
-      <!-- MAIN CONTENT -->
-      <main class="flex-1 p-6">
-        <!-- top bar (search + actions) -->
-        <div class="flex items-center justify-between gap-4 mb-6">
+      <!-- MAIN CONTENT (flexible) -->
+      <main class="flex-1 p-4 md:p-6">
+        <!-- top bar for md+ (search + actions) -->
+        <div class="hidden md:flex items-center justify-between gap-4 mb-6">
           <div class="flex-1">
             <div class="relative">
               <input type="search" placeholder="Search your course...." class="w-full rounded-xl border border-gray-200 px-4 py-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-300"/>
-              <button class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-              </button>
             </div>
           </div>
 
@@ -116,10 +136,10 @@
 
         <!-- Hero banner -->
         <div class="rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-500 text-white p-6 mb-6 shadow-lg relative overflow-hidden">
-          <div class="flex items-start justify-between gap-6">
+          <div class="flex flex-col lg:flex-row items-start justify-between gap-6">
             <div class="max-w-2xl">
               <div class="text-xs uppercase opacity-80 mb-2">Online Course</div>
-              <h1 class="text-2xl md:text-3xl font-bold leading-tight">Sharpen Your Skills with Professional Online Courses</h1>
+              <h1 class="text-xl sm:text-2xl md:text-3xl font-bold leading-tight">Sharpen Your Skills with Professional Online Courses</h1>
               <p class="mt-4 text-purple-100/80">Learn from industry experts and level-up your career with curated courses and hands-on projects.</p>
               <div class="mt-5">
                 <button class="inline-flex items-center gap-3 bg-black text-white px-4 py-2 rounded-full shadow">
@@ -129,7 +149,7 @@
               </div>
             </div>
 
-            <div class="hidden md:block w-48 h-32 opacity-40">
+            <div class="hidden sm:block w-48 h-32 opacity-40">
               <!-- decorative star shapes -->
               <svg viewBox="0 0 200 100" class="w-full h-full">
                 <rect rx="12" width="100%" height="100%" fill="rgba(255,255,255,0.04)"/>
@@ -143,8 +163,8 @@
         </div>
 
         <!-- categories pills -->
-        <div class="flex items-center gap-3 mb-6">
-          <div class="flex gap-3 overflow-x-auto scrollbar-hide">
+        <div class="flex items-center gap-3 mb-6 overflow-x-auto scrollbar-hide">
+          <div class="flex gap-3">
             <div class="px-4 py-2 bg-white rounded-2xl shadow-sm text-sm">UI/UX Design<span class="ml-2 text-xs text-gray-400">2/8 watched</span></div>
             <div class="px-4 py-2 bg-white rounded-2xl shadow-sm text-sm">Branding<span class="ml-2 text-xs text-gray-400">3/8 watched</span></div>
             <div class="px-4 py-2 bg-white rounded-2xl shadow-sm text-sm">Front End<span class="ml-2 text-xs text-gray-400">6/12 watched</span></div>
@@ -160,13 +180,13 @@
 
           <div class="flex gap-4 overflow-x-auto scrollbar-hide pb-2">
             <!-- card 1 -->
-            <div class="min-w-[300px] bg-white rounded-2xl shadow p-3">
-              <div class="relative rounded-lg overflow-hidden h-40 mb-3">
+            <div class="min-w-[260px] sm:min-w-[300px] bg-white rounded-2xl shadow p-3">
+              <div class="relative rounded-lg overflow-hidden h-36 sm:h-40 mb-3">
                 <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=800&q=60&auto=format&fit=crop" alt="thumb" class="w-full h-full object-cover"/>
                 <div class="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/80 flex items-center justify-center text-xs">❤</div>
               </div>
               <div class="text-xs text-indigo-600 font-medium mb-1">Front End</div>
-              <div class="font-semibold">Beginner's Guide to Becoming a Professional Front-End Developer</div>
+              <div class="font-semibold text-sm">Beginner's Guide to Becoming a Professional Front-End Developer</div>
               <div class="mt-3 flex items-center gap-3">
                 <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm">L</div>
                 <div class="text-xs text-gray-500">Leonardo Samsul • Mentor</div>
@@ -174,13 +194,13 @@
             </div>
 
             <!-- card 2 -->
-            <div class="min-w-[300px] bg-white rounded-2xl shadow p-3">
-              <div class="relative rounded-lg overflow-hidden h-40 mb-3">
+            <div class="min-w-[260px] sm:min-w-[300px] bg-white rounded-2xl shadow p-3">
+              <div class="relative rounded-lg overflow-hidden h-36 sm:h-40 mb-3">
                 <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=60&auto=format&fit=crop" alt="thumb" class="w-full h-full object-cover"/>
                 <div class="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/80 flex items-center justify-center text-xs">❤</div>
               </div>
               <div class="text-xs text-pink-600 font-medium mb-1">UI/UX Design</div>
-              <div class="font-semibold">Optimizing User Experience with the Best UI/UX Design</div>
+              <div class="font-semibold text-sm">Optimizing User Experience with the Best UI/UX Design</div>
               <div class="mt-3 flex items-center gap-3">
                 <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-sm">B</div>
                 <div class="text-xs text-gray-500">Bayu Salto • Mentor</div>
@@ -188,13 +208,13 @@
             </div>
 
             <!-- card 3 -->
-            <div class="min-w-[300px] bg-white rounded-2xl shadow p-3">
-              <div class="relative rounded-lg overflow-hidden h-40 mb-3">
+            <div class="min-w-[260px] sm:min-w-[300px] bg-white rounded-2xl shadow p-3">
+              <div class="relative rounded-lg overflow-hidden h-36 sm:h-40 mb-3">
                 <img src="https://images.unsplash.com/photo-1525182008055-f88b95ff7980?w=800&q=60&auto=format&fit=crop" alt="thumb" class="w-full h-full object-cover"/>
                 <div class="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/80 flex items-center justify-center text-xs">❤</div>
               </div>
               <div class="text-xs text-pink-500 font-medium mb-1">Branding</div>
-              <div class="font-semibold">Reviving and Refreshing Company Image</div>
+              <div class="font-semibold text-sm">Reviving and Refreshing Company Image</div>
               <div class="mt-3 flex items-center gap-3">
                 <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center text-sm">P</div>
                 <div class="text-xs text-gray-500">Padhang Satrio • Mentor</div>
@@ -204,15 +224,15 @@
         </section>
 
         <!-- Your Lesson (table-like) -->
-        <section class="bg-white rounded-2xl p-4 shadow-sm">
+        <section class="bg-white rounded-2xl p-4 shadow-sm mb-6">
           <div class="flex items-center justify-between mb-3">
             <div class="font-semibold">Your Lesson</div>
             <a href="#" class="text-sm text-purple-600">See all</a>
           </div>
 
           <div class="space-y-3">
-            <div class="flex items-center justify-between p-3 rounded-lg border border-gray-100">
-              <div class="flex items-center gap-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 rounded-lg border border-gray-100">
+              <div class="flex items-center gap-4 mb-3 sm:mb-0">
                 <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center">P</div>
                 <div>
                   <div class="text-sm font-medium">Padhang Satrio</div>
@@ -220,16 +240,19 @@
                 </div>
               </div>
 
-              <div class="text-sm text-gray-500">UI/UX Design</div>
-              <div class="text-gray-700">Understand Of UI/UX Design</div>
-              <div>
+              <div class="flex items-center gap-6">
+                <div class="text-sm text-gray-500">UI/UX Design</div>
+                <div class="text-gray-700">Understand Of UI/UX Design</div>
+              </div>
+
+              <div class="mt-3 sm:mt-0">
                 <button class="px-3 py-2 rounded-full bg-purple-50 text-purple-700">View</button>
               </div>
             </div>
 
             <!-- another row -->
-            <div class="flex items-center justify-between p-3 rounded-lg border border-gray-100">
-              <div class="flex items-center gap-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 rounded-lg border border-gray-100">
+              <div class="flex items-center gap-4 mb-3 sm:mb-0">
                 <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">L</div>
                 <div>
                   <div class="text-sm font-medium">Leonardo Samsul</div>
@@ -237,19 +260,121 @@
                 </div>
               </div>
 
-              <div class="text-sm text-gray-500">Front End</div>
-              <div class="text-gray-700">Build Responsive Layouts</div>
-              <div>
+              <div class="flex items-center gap-6">
+                <div class="text-sm text-gray-500">Front End</div>
+                <div class="text-gray-700">Build Responsive Layouts</div>
+              </div>
+
+              <div class="mt-3 sm:mt-0">
                 <button class="px-3 py-2 rounded-full bg-purple-50 text-purple-700">View</button>
               </div>
             </div>
           </div>
         </section>
+
+        <!-- STATISTICS & MENTORS — visible below main on medium and smaller (lg:hidden) -->
+        <section class="lg:hidden">
+          <div class="rounded-2xl p-4 bg-white shadow-sm mb-4">
+            <div class="flex items-center justify-between mb-3">
+              <div class="text-sm font-medium">Statistic</div>
+              <div class="text-gray-300">⋮</div>
+            </div>
+
+            <div class="flex flex-col items-center gap-3">
+              <div class="relative">
+                <div class="w-24 h-24 rounded-full progress-ring" style="--p: 220deg;">
+                  <div class="w-full h-full rounded-full bg-white/90 flex items-center justify-center">
+                    <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+                      <div class="text-xl font-medium text-gray-700">J</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="absolute -top-1 -right-1 bg-indigo-500 text-white text-xs px-2 py-1 rounded-full">32%</div>
+              </div>
+
+              <div class="text-center">
+                <div class="font-semibold">Good Morning Jason 🔥</div>
+                <div class="text-xs text-gray-400">Continue your learning to achieve your target!</div>
+              </div>
+            </div>
+
+            <!-- small bar chart -->
+            <div class="mt-4 bg-gray-50 p-3 rounded-lg">
+              <div class="flex items-end gap-3 justify-between h-24">
+                <div class="w-12 flex flex-col items-center">
+                  <div class="bg-purple-300 rounded-t-md w-full" style="height:30%"></div>
+                  <div class="text-xs text-gray-400 mt-2">1-10 Aug</div>
+                </div>
+                <div class="w-12 flex flex-col items-center">
+                  <div class="bg-purple-400 rounded-t-md w-full" style="height:45%"></div>
+                  <div class="text-xs text-gray-400 mt-2">11-20 Aug</div>
+                </div>
+                <div class="w-12 flex flex-col items-center">
+                  <div class="bg-purple-600 rounded-t-md w-full" style="height:60%"></div>
+                  <div class="text-xs text-gray-400 mt-2">21-30 Aug</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mentor card -->
+          <div class="rounded-2xl bg-white p-4 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+              <div class="font-medium">Your mentor</div>
+              <button class="text-xs text-gray-400">+</button>
+            </div>
+
+            <ul class="space-y-3">
+              <li class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700">P</div>
+                  <div>
+                    <div class="text-sm font-medium">Padhang Satrio</div>
+                    <div class="text-xs text-gray-400">Mentor</div>
+                  </div>
+                </div>
+                <button class="px-3 py-1 rounded-md border border-purple-100 text-purple-600">Follow</button>
+              </li>
+
+              <li class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-pink-700">Z</div>
+                  <div>
+                    <div class="text-sm font-medium">Zakir Horizontal</div>
+                    <div class="text-xs text-gray-400">Mentor</div>
+                  </div>
+                </div>
+                <button class="px-3 py-1 rounded-md border border-purple-100 text-purple-600">Follow</button>
+              </li>
+
+              <li class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-700">L</div>
+                  <div>
+                    <div class="text-sm font-medium">Leonardo Samsul</div>
+                    <div class="text-xs text-gray-400">Mentor</div>
+                  </div>
+                </div>
+                <button class="px-3 py-1 rounded-md border border-purple-100 text-purple-600">Follow</button>
+              </li>
+            </ul>
+
+            <div class="mt-4 text-center">
+              <button class="text-sm text-purple-600">See All</button>
+            </div>
+          </div>
+        </section>
+
       </main>
 
-      <!-- RIGHT SIDEBAR -->
-      <aside class="w-80 p-6 bg-white border-l border-gray-100">
+      <!-- RIGHT SIDEBAR for large screens -->
+      <aside class="hidden lg:block w-80 p-6 bg-white border-l border-gray-100 h-screen sticky top-0">
         <div class="rounded-2xl p-4 bg-white shadow-sm">
+          <div class="flex items-center justify-between mb-3">
+            <div class="text-sm font-medium">Statistic</div>
+            <div class="text-gray-300">⋮</div>
+          </div>
+
           <div class="flex flex-col items-center gap-3">
             <div class="relative">
               <div class="w-28 h-28 rounded-full progress-ring" style="--p: 220deg;">
@@ -336,5 +461,75 @@
       </aside>
     </div>
   </div>
+
+  <!-- MOBILE SIDEBAR (off-canvas) -->
+  <div id="mobile-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white p-6 border-r border-gray-100 transform -translate-x-full transition-transform duration-200 md:hidden">
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">C</div>
+        <div class="text-lg font-semibold">Coursue</div>
+      </div>
+      <button id="mobile-close-btn" class="p-2 rounded-md hover:bg-gray-100" aria-label="Close menu">
+        <svg class="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <nav class="space-y-2 text-sm text-gray-700">
+      <a href="#" class="flex items-center gap-3 p-2 rounded-lg bg-purple-50 text-purple-700">Dashboard</a>
+      <a href="#" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50">Inbox</a>
+      <a href="#" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50">Lesson</a>
+      <a href="#" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50">Task</a>
+      <a href="#" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50">Group</a>
+
+      <div class="mt-4 text-xs text-gray-400 uppercase">Friends</div>
+      <ul class="mt-2 space-y-2">
+        <li class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 to-amber-500 flex items-center justify-center text-white text-xs">B</div>
+          <div>
+            <div class="text-sm font-medium">Bagas Mahpie</div>
+            <div class="text-xs text-gray-400">Friend</div>
+          </div>
+        </li>
+        <li class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-700 text-xs">S</div>
+          <div>
+            <div class="text-sm font-medium">Sir Dandy</div>
+            <div class="text-xs text-gray-400">Old Friend</div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="mt-4 text-xs text-gray-400 uppercase">Settings</div>
+      <div class="mt-2">
+        <a href="#" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50">Setting</a>
+        <a href="#" class="flex items-center gap-3 p-2 mt-2 rounded-lg text-red-500 hover:bg-red-50">Logout</a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- MOBILE OVERLAY -->
+  <div id="mobile-overlay" class="fixed inset-0 z-40 hidden"></div>
+
+  <script>
+    const btn = document.getElementById('mobile-menu-btn');
+    const sidebar = document.getElementById('mobile-sidebar');
+    const closeBtn = document.getElementById('mobile-close-btn');
+    const overlay = document.getElementById('mobile-overlay');
+
+    function openSidebar() {
+      sidebar.classList.remove('-translate-x-full');
+      overlay.classList.remove('hidden');
+      overlay.classList.add('overlay');
+    }
+    function closeSidebar() {
+      sidebar.classList.add('-translate-x-full');
+      overlay.classList.add('hidden');
+      overlay.classList.remove('overlay');
+    }
+
+    btn && btn.addEventListener('click', openSidebar);
+    closeBtn && closeBtn.addEventListener('click', closeSidebar);
+    overlay && overlay.addEventListener('click', closeSidebar);
+  </script>
 </body>
 </html>
