@@ -18,6 +18,21 @@
     }
     /* overlay for mobile sidebar */
     .overlay { background: rgba(0,0,0,0.35); }
+
+    /* Chart styles for right-sidebar small bar chart */
+    .activity-chart { position: relative; }
+    .chart-grid { position: absolute; inset: 0; pointer-events: none; }
+    .chart-grid .line { border-top: 1px dashed rgba(99,102,241,0.08); height: 0; position: absolute; left: 0; right: 0; }
+    .chart-bars { position: relative; display: flex; align-items: flex-end; gap: 0.75rem; z-index: 1; }
+    .chart-bar { position: relative; width: 2rem; display: flex; align-items: flex-end; justify-content: center; }
+    .chart-bar .bar { width: 100%; border-radius: 0.5rem 0.5rem 0 0; background: linear-gradient(180deg,#7c3aed,#6d28d9); transition: transform .12s ease, height .2s ease; }
+    .chart-bar .bar:hover { transform: translateY(-4px); }
+    .chart-label { margin-top: 0.5rem; font-size: .65rem; color: #6b7280; text-align: center; }
+    .chart-value { position: absolute; top: -28px; left: 50%; transform: translateX(-50%); background: rgba(17,24,39,0.9); color: white; padding: 4px 6px; font-size: .65rem; border-radius: 6px; display: none; pointer-events: none; }
+    .chart-bar:hover .chart-value { display: block; }
+
+    /* Tooltip element used for touch devices (positioned dynamically) */
+    #chart-tooltip{ position: fixed; display:none; z-index: 60; background: rgba(17,24,39,0.95); color: #fff; padding:6px 8px; border-radius:6px; font-size:12px; pointer-events:none; transform: translate(-50%, -8px); }
   </style>
 </head>
 <body class="min-h-screen bg-gray-100 overflow-x-hidden">
@@ -45,7 +60,7 @@
   <div class="max-w-7xl mx-auto px-4">
     <div class="flex w-full">
       <!-- LEFT SIDEBAR (desktop/tablet) -->
-      <aside class="hidden md:block lg:block w-64 md:w-[20%] bg-white p-6 border-r border-gray-100 h-screen sticky top-0 overflow-y-auto">
+      <aside class="hidden md:block w-64 bg-white p-6 border-r border-gray-100 h-screen sticky top-0 overflow-y-auto">
         <div class="flex items-center gap-3 mb-8">
           <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">C</div>
           <div class="text-lg font-semibold">Coursue</div>
@@ -93,7 +108,7 @@
       </aside>
 
       <!-- MAIN CONTENT (flexible) -->
-      <main class="flex-1 p-4 md:p-6 w-[100%] md:w-[60%] lg:w-[60%]">
+      <main class="flex-1 p-4 md:p-6">
         <!-- top bar for md+ (search + actions) -->
         <div class="hidden md:flex items-center justify-between gap-4 mb-6">
           <div class="flex-1">
@@ -280,20 +295,39 @@
               </div>
             </div>
 
-            <!-- small bar chart -->
-            <div class="mt-4 bg-gray-50 p-3 rounded-lg">
-              <div class="flex items-end gap-3 justify-between h-24">
-                <div class="w-12 flex flex-col items-center">
-                  <div class="bg-purple-300 rounded-t-md w-full" style="height:30%"></div>
-                  <div class="text-xs text-gray-400 mt-2">1-10 Aug</div>
+            <!-- improved small bar chart (mobile) -->
+            <div class="mt-4 bg-gray-50 p-3 rounded-lg activity-chart">
+              <div class="relative h-28">
+                <!-- grid lines -->
+                <div class="chart-grid">
+                  <div class="line" style="top:10%;"></div>
+                  <div class="line" style="top:30%;"></div>
+                  <div class="line" style="top:50%;"></div>
+                  <div class="line" style="top:70%;"></div>
                 </div>
-                <div class="w-12 flex flex-col items-center">
-                  <div class="bg-purple-400 rounded-t-md w-full" style="height:45%"></div>
-                  <div class="text-xs text-gray-400 mt-2">11-20 Aug</div>
-                </div>
-                <div class="w-12 flex flex-col items-center">
-                  <div class="bg-purple-600 rounded-t-md w-full" style="height:60%"></div>
-                  <div class="text-xs text-gray-400 mt-2">21-30 Aug</div>
+
+                <div class="chart-bars h-full flex items-end justify-between">
+                  <!-- data: date label and activity count -->
+                  <div class="chart-bar" data-date="1 Aug" data-value="18">
+                    <div class="chart-value">18</div>
+                    <div class="bar" style="height:30%"></div>
+                    <div class="chart-label">1 Aug</div>
+                  </div>
+                  <div class="chart-bar" data-date="8 Aug" data-value="30">
+                    <div class="chart-value">30</div>
+                    <div class="bar" style="height:50%"></div>
+                    <div class="chart-label">8 Aug</div>
+                  </div>
+                  <div class="chart-bar" data-date="15 Aug" data-value="45">
+                    <div class="chart-value">45</div>
+                    <div class="bar" style="height:75%"></div>
+                    <div class="chart-label">15 Aug</div>
+                  </div>
+                  <div class="chart-bar" data-date="22 Aug" data-value="60">
+                    <div class="chart-value">60</div>
+                    <div class="bar" style="height:100%"></div>
+                    <div class="chart-label">22 Aug</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -350,7 +384,7 @@
       </main>
 
       <!-- RIGHT SIDEBAR for large screens -->
-      <aside class="hidden md:block lg:block w-80 md:w-[20%] lg:w-[20%] p-6 bg-white border-l border-gray-100 h-screen sticky top-0 overflow-y-auto">
+      <aside class="hidden lg:block w-80 p-6 bg-white border-l border-gray-100 h-screen sticky top-0 overflow-y-auto">
         <div class="rounded-2xl p-4 bg-white shadow-sm">
           <div class="flex items-center justify-between mb-3">
             <div class="text-sm font-medium">Statistic</div>
@@ -375,20 +409,67 @@
             </div>
           </div>
 
-          <!-- small bar chart -->
-          <div class="mt-4 bg-gray-50 p-3 rounded-lg">
-            <div class="flex items-end gap-3 justify-between h-24">
-              <div class="w-12 flex flex-col items-center">
-                <div class="bg-purple-300 rounded-t-md w-full" style="height:30%"></div>
-                <div class="text-xs text-gray-400 mt-2">1-10 Aug</div>
+          <!-- improved small bar chart (desktop) -->
+          <div class="mt-4 bg-gray-50 p-4 rounded-lg activity-chart">
+            <div class="flex items-center justify-between mb-2">
+              <div class="text-xs text-gray-500">Learning Activity</div>
+              <div class="text-xs text-gray-400">Last 30 days</div>
+            </div>
+
+            <div class="relative h-40">
+              <!-- grid lines -->
+              <div class="chart-grid">
+                <div class="line" style="top:8%;"></div>
+                <div class="line" style="top:32%;"></div>
+                <div class="line" style="top:56%;"></div>
+                <div class="line" style="top:80%;"></div>
               </div>
-              <div class="w-12 flex flex-col items-center">
-                <div class="bg-purple-400 rounded-t-md w-full" style="height:45%"></div>
-                <div class="text-xs text-gray-400 mt-2">11-20 Aug</div>
+
+              <div class="chart-bars h-full flex items-end justify-between">
+                <!-- Example data points: date label and activity count (value out of 60) -->
+                <div class="chart-bar" data-date="1 Aug" data-value="12">
+                  <div class="chart-value">12 activities</div>
+                  <div class="bar" style="height:18%"></div>
+                  <div class="chart-label">01 Aug</div>
+                </div>
+
+                <div class="chart-bar" data-date="6 Aug" data-value="28">
+                  <div class="chart-value">28 activities</div>
+                  <div class="bar" style="height:42%"></div>
+                  <div class="chart-label">06 Aug</div>
+                </div>
+
+                <div class="chart-bar" data-date="11 Aug" data-value="38">
+                  <div class="chart-value">38 activities</div>
+                  <div class="bar" style="height:56%"></div>
+                  <div class="chart-label">11 Aug</div>
+                </div>
+
+                <div class="chart-bar" data-date="16 Aug" data-value="50">
+                  <div class="chart-value">50 activities</div>
+                  <div class="bar" style="height:74%"></div>
+                  <div class="chart-label">16 Aug</div>
+                </div>
+
+                <div class="chart-bar" data-date="21 Aug" data-value="60">
+                  <div class="chart-value">60 activities</div>
+                  <div class="bar" style="height:100%"></div>
+                  <div class="chart-label">21 Aug</div>
+                </div>
+
+                <div class="chart-bar" data-date="26 Aug" data-value="34">
+                  <div class="chart-value">34 activities</div>
+                  <div class="bar" style="height:56%"></div>
+                  <div class="chart-label">26 Aug</div>
+                </div>
+
               </div>
-              <div class="w-12 flex flex-col items-center">
-                <div class="bg-purple-600 rounded-t-md w-full" style="height:60%"></div>
-                <div class="text-xs text-gray-400 mt-2">21-30 Aug</div>
+
+              <!-- simple x-axis with end dates -->
+              <div class="absolute left-0 right-0 bottom-0 flex justify-between text-[11px] text-gray-400 mt-2 px-1">
+                <div>01 Aug</div>
+                <div>11 Aug</div>
+                <div>21 Aug</div>
               </div>
             </div>
           </div>
@@ -492,6 +573,8 @@
   <!-- MOBILE OVERLAY -->
   <div id="mobile-overlay" class="fixed inset-0 z-40 hidden"></div>
 
+  <div id="chart-tooltip"></div>
+
   <script>
     const btn = document.getElementById('mobile-menu-btn');
     const sidebar = document.getElementById('mobile-sidebar');
@@ -518,6 +601,44 @@
 
     // defensive: prevent accidental horizontal scroll caused by focus outlines or transforms
     window.addEventListener('resize', () => { document.body.style.overflowX = 'hidden'; });
+
+    // Chart tooltip behavior
+    const tooltip = document.getElementById('chart-tooltip');
+    function showTooltip(evt, date, value) {
+      const x = evt.clientX;
+      const y = evt.clientY;
+      tooltip.style.left = x + 'px';
+      tooltip.style.top = (y - 36) + 'px';
+      tooltip.innerHTML = `<strong>${date}</strong><div style="font-size:12px;opacity:0.9">${value} activities</div>`;
+      tooltip.style.display = 'block';
+      tooltip.style.opacity = '1';
+    }
+    function hideTooltip(){ tooltip.style.display = 'none'; }
+
+    document.querySelectorAll('.chart-bar').forEach(bar => {
+      // hover (desktop)
+      bar.addEventListener('mouseenter', (e)=>{
+        const date = bar.getAttribute('data-date');
+        const value = bar.getAttribute('data-value');
+        showTooltip(e, date, value);
+      });
+      bar.addEventListener('mousemove', (e)=>{
+        const date = bar.getAttribute('data-date');
+        const value = bar.getAttribute('data-value');
+        showTooltip(e, date, value);
+      });
+      bar.addEventListener('mouseleave', hideTooltip);
+
+      // touch (mobile) - tap to toggle tooltip
+      bar.addEventListener('touchstart', (e)=>{
+        const date = bar.getAttribute('data-date');
+        const value = bar.getAttribute('data-value');
+        showTooltip(e.touches[0], date, value);
+        // hide after 2s
+        setTimeout(hideTooltip, 2000);
+      });
+    });
+
   </script>
 </body>
 </html>
